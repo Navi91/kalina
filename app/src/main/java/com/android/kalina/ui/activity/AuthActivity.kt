@@ -20,7 +20,7 @@ import android.widget.Toast
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.android.kalina.R
 import com.android.kalina.api.auth.WrongCodeApiException
-import com.android.kalina.ui.Studio21Activity
+import com.android.kalina.ui.KalinaActivity
 import com.android.kalina.viewmodel.auth.AuthState
 import com.android.kalina.viewmodel.auth.AuthViewModel
 import kotlinx.android.synthetic.main.a_auth.*
@@ -31,7 +31,7 @@ import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import rx.Observable
 import rx.Subscription
 
-class AuthActivity : Studio21Activity() {
+class AuthActivity : KalinaActivity() {
 
     private val PHONE_LENGTH = 11
 

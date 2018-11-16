@@ -3,7 +3,7 @@ package com.android.kalina.dagger
 import com.android.kalina.api.chat.ChatSocket
 import com.android.kalina.api.playback.RadioPlayback
 import com.android.kalina.api.radio.RadioService
-import com.android.kalina.app.Studio21Application
+import com.android.kalina.app.KalinaApplication
 import com.android.kalina.audiorecord.AudioApi
 import com.android.kalina.audiorecord.AudioPlayer
 import com.android.kalina.onesignal.MessageReceiver
@@ -15,7 +15,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApplicationModule::class, Studio21Module::class])
+@Component(modules = [ApplicationModule::class, KalinaModule::class])
 interface ApplicationComponent {
 
     fun inject(radioFragment: RadioFragment)
@@ -27,6 +27,6 @@ interface ApplicationComponent {
     fun inject(chatActivity: ChatActivity)
     fun inject(radioService: RadioService)
     fun inject(audioPlayer: AudioPlayer)
-    fun inject(studio21Application: Studio21Application)
+    fun inject(kalinaApplication: KalinaApplication)
     fun inject(messageReceiver: MessageReceiver)
 }

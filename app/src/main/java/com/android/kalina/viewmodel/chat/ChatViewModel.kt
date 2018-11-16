@@ -8,11 +8,11 @@ import com.android.kalina.dagger.ComponentHolder
 import com.android.kalina.data.LiveResource
 import com.android.kalina.data.Status
 import com.android.kalina.database.message.Message
-import com.android.kalina.viewmodel.Studio21ViewModel
+import com.android.kalina.viewmodel.KalinaViewModel
 import java.io.File
 import javax.inject.Inject
 
-class ChatViewModel : Studio21ViewModel() {
+class ChatViewModel : KalinaViewModel() {
 
     @Inject
     lateinit var chatApi: ChatApi

@@ -20,7 +20,7 @@ import javax.inject.Inject
 /**
  * Created by Dmitriy on 21.02.2018.
  */
-class Studio21Application : MultiDexApplication(), OSSubscriptionObserver {
+class KalinaApplication : MultiDexApplication(), OSSubscriptionObserver {
 
     @Inject
     lateinit var preferences: Preferences

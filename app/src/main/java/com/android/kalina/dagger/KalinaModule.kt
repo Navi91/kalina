@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module(includes = [AuthModule::class, RetrofitModule::class, ChatModule::class])
-class Studio21Module {
+class KalinaModule {
 
 
 }

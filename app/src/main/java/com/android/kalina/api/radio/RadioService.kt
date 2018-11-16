@@ -54,7 +54,7 @@ class RadioService : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServic
 
         ComponentHolder.applicationComponent().inject(this)
 
-        val playback = RadioPlayback(applicationContext, "http://icecast-studio21.cdnvideo.ru/S21_1")
+        val playback = RadioPlayback(applicationContext, "http://icecast-studio21.cdnvideo.ru/KalynaK_1a")
         playbackManager = PlaybackManager(playback, this)
 
         session = MediaSessionCompat(applicationContext, "RadioService")

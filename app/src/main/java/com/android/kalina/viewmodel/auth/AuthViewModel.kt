@@ -10,11 +10,11 @@ import com.android.kalina.dagger.ComponentHolder
 import com.android.kalina.data.response.ApiResponse
 import com.android.kalina.data.response.ConfirmCodeResponse
 import com.android.kalina.data.response.ConfirmPhoneResponse
-import com.android.kalina.viewmodel.Studio21ViewModel
+import com.android.kalina.viewmodel.KalinaViewModel
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class AuthViewModel : Studio21ViewModel() {
+class AuthViewModel : KalinaViewModel() {
 
     @Inject
     lateinit var authHolder: AuthHolder

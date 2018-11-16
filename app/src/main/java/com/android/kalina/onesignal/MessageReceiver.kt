@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Created by Dmitriy on 03.02.2018.
  */
 
-const val MESSAGE_ACTION = "studio21_one_signal_message_notification_action"
+const val MESSAGE_ACTION = "kalina_one_signal_message_notification_action"
 
 class MessageReceiver : BroadcastReceiver() {
 

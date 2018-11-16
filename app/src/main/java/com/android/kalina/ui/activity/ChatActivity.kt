@@ -26,7 +26,7 @@ import com.android.kalina.audiorecord.AudioPlayerManager
 import com.android.kalina.audiorecord.Recorder
 import com.android.kalina.dagger.ComponentHolder
 import com.android.kalina.onesignal.MESSAGE_ACTION
-import com.android.kalina.ui.Studio21Activity
+import com.android.kalina.ui.KalinaActivity
 import com.android.kalina.ui.adapter.MessageRecyclerViewAdapter
 import com.android.kalina.ui.view.RecordVoiceView
 import com.android.kalina.util.Logger
@@ -40,7 +40,7 @@ import kotlinx.android.synthetic.main.a_chat.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ChatActivity : Studio21Activity(), RecordVoiceView.RecordVoiceListener {
+class ChatActivity : KalinaActivity(), RecordVoiceView.RecordVoiceListener {
 
     private val TAG = ChatActivity::class.java.name
 

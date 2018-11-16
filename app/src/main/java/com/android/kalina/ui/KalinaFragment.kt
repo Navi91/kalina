@@ -8,6 +8,6 @@ import butterknife.Unbinder
 /**
  * Created by Dmitriy on 21.02.2018.
  */
-open class Studio21Fragment : Fragment() {
+open class KalinaFragment : Fragment() {
 
 }

@@ -5,7 +5,7 @@ import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class Studio21ViewModel : ViewModel() {
+open class KalinaViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 

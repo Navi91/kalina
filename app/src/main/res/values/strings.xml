@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Studio21</string>
+    <string name="app_name">Калина Красная</string>
 
     <string name="radio_notification_channel_name">Radio</string>
-    <string name="radio_notification_channel_description">Studio21 notification</string>
-    <string name="message_notification_channel_description">Studio21 messages notification</string>
-    <string name="message_notification_channel_name">Studio21 message</string>
+    <string name="radio_notification_channel_description">Kalina notification</string>
+    <string name="message_notification_channel_description">Kalina messages notification</string>
+    <string name="message_notification_channel_name">Kalina message</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
     <string name="error">Error</string>

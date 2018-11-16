@@ -2,9 +2,9 @@ package com.android.kalina.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import com.android.kalina.ui.Studio21Activity
+import com.android.kalina.ui.KalinaActivity
 
-class SplashActivity : Studio21Activity() {
+class SplashActivity : KalinaActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

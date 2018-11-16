@@ -6,7 +6,7 @@ import android.widget.Toast
 /**
  * Created by Dmitriy on 21.02.2018.
  */
-open class Studio21Activity : AppCompatActivity()  {
+open class KalinaActivity : AppCompatActivity()  {
 
     fun showToast(message: String?, length: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this, message, length).show()

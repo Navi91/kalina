@@ -93,7 +93,7 @@ class RadioPlayback(private val context: Context, url: String) : Playback {
     private val videoTrackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
     private val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
     private val loadControl = DefaultLoadControl()
-    private val dataSourceFactory: DataSource.Factory = IcyDataSourceFactory(context, Util.getUserAgent(context, "Studio21"), true, playerCallback)
+    private val dataSourceFactory: DataSource.Factory = IcyDataSourceFactory(context, Util.getUserAgent(context, "Kalina"), true, playerCallback)
     private val mediaSource = ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null)
     private val audioManager: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 

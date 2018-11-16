@@ -25,7 +25,7 @@ import com.android.kalina.api.playback.PlaybackManager
 import com.android.kalina.api.util.Preferences
 import com.android.kalina.api.util.observeMain
 import com.android.kalina.dagger.ComponentHolder
-import com.android.kalina.ui.Studio21Fragment
+import com.android.kalina.ui.KalinaFragment
 import com.android.kalina.ui.activity.AuthActivity
 import com.android.kalina.ui.activity.ChatActivity
 import io.reactivex.disposables.Disposable
@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.f_radio.*
 import javax.inject.Inject
 
 
-class RadioFragment : Studio21Fragment() {
+class RadioFragment : KalinaFragment() {
 
     @Inject
     lateinit var preferences: Preferences

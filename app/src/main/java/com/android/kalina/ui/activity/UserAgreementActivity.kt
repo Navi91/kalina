@@ -7,10 +7,10 @@ import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.view.View
 import com.android.kalina.R
-import com.android.kalina.ui.Studio21Activity
+import com.android.kalina.ui.KalinaActivity
 import kotlinx.android.synthetic.main.a_user_agreement.*
 
-class UserAgreementActivity : Studio21Activity() {
+class UserAgreementActivity : KalinaActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

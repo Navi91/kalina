@@ -1,7 +1,6 @@
 package com.android.kalina.ui.activity;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -16,10 +15,10 @@ import android.util.Log;
 
 import com.android.kalina.R;
 import com.android.kalina.api.radio.RadioService;
-import com.android.kalina.ui.Studio21Activity;
+import com.android.kalina.ui.KalinaActivity;
 import com.android.kalina.ui.fragment.RadioFragment;
 
-public class RadioActivity extends Studio21Activity {
+public class RadioActivity extends KalinaActivity {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
 
