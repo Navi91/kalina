@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_image_width">280dp</dimen>
+    <dimen name="logo_image_height">76dp</dimen>
+    <dimen name="action_image_view_size">36dp</dimen>
+    <dimen name="message_margin">96dp</dimen>
+    <dimen name="action_audio_message_button_size">36dp</dimen>
+    <dimen name="audio_message_height">56dp</dimen>
+    <dimen name="audio_message_progress_bar_height">2dp</dimen>
+
+    <dimen name="icon_size_8dp">8dp</dimen>
+    <dimen name="icon_size_18dp">18dp</dimen>
+
+    <dimen name="text_10sp">10sp</dimen>
+    <dimen name="text_12sp">12sp</dimen>
+    <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_16sp">16sp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
+    <dimen name="text_20sp">20sp</dimen>
+
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+
+    <dimen name="padding_4dp">4dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
+</resources>

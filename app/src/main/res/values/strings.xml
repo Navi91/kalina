@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">kalina</string>
+    <string name="app_name">Studio21</string>
+
+    <string name="radio_notification_channel_name">Radio</string>
+    <string name="radio_notification_channel_description">Studio21 notification</string>
+    <string name="message_notification_channel_description">Studio21 messages notification</string>
+    <string name="message_notification_channel_name">Studio21 message</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="error">Error</string>
+    <string name="name">Имя</string>
+    <string name="authorization">Авторизация</string>
+    <string name="enter">Войти</string>
+    <string name="code">Код</string>
+    <string name="take_code_caps">ПОЛУЧИТЬ КОД</string>
+    <string name="confirm_caps">ПОДТВЕРДИТЬ</string>
+    <string name="send_code_again">Отправить код потворно</string>
+    <string name="user_agreement_message" formatted="false">Подтверждая номер телефона, вы принимаете условия %s</string>
+    <string name="user_agreement_in_message">пользовательского соглашения</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="online_caps">ONLINE</string>
+    <string name="message">Сообщение</string>
+    <string name="error_send_code">Ошибка при отправки кода</string>
+    <string name="error_wrong_code">Неверный код</string>
+    <string name="error_server_unavailable">Сервер не доступен</string>
+    <string name="swipe_for_cancel">Проведите для отмены</string>
+    <string name="error_file_not_found">Файл не найден</string>
+
 </resources>
