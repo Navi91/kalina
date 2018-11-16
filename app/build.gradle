@@ -32,10 +32,10 @@ android {
     }
     signingConfigs {
         releaseSign {
-            storeFile rootProject.file("keys/Studio21Key.jks")
-            storePassword "studio21"
-            keyAlias "studio21"
-            keyPassword "studio21"
+            storeFile rootProject.file("keys/Kalina.jks")
+            storePassword "kalina"
+            keyAlias "kalina"
+            keyPassword "kalina"
         }
     }
 
