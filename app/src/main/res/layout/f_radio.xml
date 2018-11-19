@@ -36,7 +36,7 @@
                     android:layout_width="280dp"
                     android:layout_height="280dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_logo_gray"/>
+                    android:background="@color/colorAccent"/>
 
         </LinearLayout>
 

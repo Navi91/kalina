@@ -9,11 +9,11 @@ class SplashActivity : KalinaActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val intent = Intent(this, RadioActivity::class.java).apply {
+        with(Intent(this, RadioActivity::class.java)) {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+            finish()
         }
 
-        startActivity(intent)
-        finish()
     }
 }
