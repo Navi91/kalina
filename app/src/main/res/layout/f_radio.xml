@@ -10,12 +10,12 @@
     <ImageView
             android:id="@+id/studio"
             android:layout_width="280dp"
-            android:layout_height="76dp"
+            android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_logo_black"/>
+            android:scaleType="centerInside"
+            android:src="@mipmap/logo"/>
 
     <ScrollView
             android:layout_width="match_parent"
