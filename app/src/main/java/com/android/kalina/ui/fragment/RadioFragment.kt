@@ -237,14 +237,14 @@ class RadioFragment : KalinaFragment() {
         loadImageRequest = artLoader.request(author, song, object : ArtLoadRequest.LoadCallback {
             override fun onLoad(bitmap: Bitmap?) {
                 if (bitmap != null) {
-                    activity?.runOnUiThread({
+                    activity?.runOnUiThread {
                         artImageView.setImageBitmap(bitmap)
-                    })
+                    }
                 }
             }
         })
 
-        artImageView.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_logo_gray))
+        artImageView.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_track_placeholder))
         subscribeLoadRequest()
     }
 

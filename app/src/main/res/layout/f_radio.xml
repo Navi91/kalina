@@ -36,7 +36,7 @@
                     android:layout_width="280dp"
                     android:layout_height="280dp"
                     android:scaleType="fitCenter"
-                    android:background="@color/colorAccent"/>
+                    android:background="@drawable/ic_track_placeholder"/>
 
         </LinearLayout>
 
