@@ -12,6 +12,7 @@ import com.android.kalina.api.util.io
 import com.android.kalina.audiorecord.AudioApi
 import com.android.kalina.audiorecord.AudioHelper
 import com.android.kalina.data.LiveResource
+import com.android.kalina.data.Status
 import com.android.kalina.database.message.Message
 import io.reactivex.Completable
 import org.json.JSONObject
@@ -128,8 +129,7 @@ class ChatApi @Inject constructor(private val context: Context,
                 setUnreadMessageCount(0)
             }
             CONNECT_ERROR -> {
-                val value = messagesLiveData.value
-                messagesLiveData.value = LiveResource.error(ConnectToServerApiException(), value?.data)
+                setError(ConnectToServerApiException())
             }
             else -> {
             }
@@ -151,7 +151,7 @@ class ChatApi @Inject constructor(private val context: Context,
             requestMessages()
             sendNextUnsentMessageIfExist()
         } else {
-            // TODO handle initial error
+            setError(ConnectToServerApiException())
         }
 
         Log.d(TAG, "Get initial: $ok")
@@ -278,8 +278,9 @@ class ChatApi @Inject constructor(private val context: Context,
     }
 
     private fun setError(error: Throwable) {
-        val value = messagesLiveData.value
-
-        messagesLiveData.value = LiveResource.error(error, value?.data)
+        if (messagesLiveData.value?.status != Status.ERROR) {
+            val value = messagesLiveData.value
+            messagesLiveData.postValue(LiveResource.error(error, value?.data))
+        }
     }
 }
