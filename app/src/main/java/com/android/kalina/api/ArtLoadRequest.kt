@@ -18,7 +18,7 @@ class ArtLoadRequest(val context: Context, val okHttpClient: OkHttpClient, val a
     private var isSubscribed = false;
 
     companion object {
-        val imageHolderMap = mutableMapOf<String, Bitmap>()
+        val imageHolderMap = mutableMapOf<String, String>()
     }
 
     fun subscribe() {
@@ -35,13 +35,13 @@ class ArtLoadRequest(val context: Context, val okHttpClient: OkHttpClient, val a
         if (!isSubscribed) return
 
         if (imageHolderMap.containsKey(createTermWithAuthorAndSong())) {
-            notifyCallback(imageHolderMap.get(createTermWithAuthorAndSong()))
+            notifyCallback(imageHolderMap[createTermWithAuthorAndSong()])
             return
         }
 
-        loadWithTerm(createTermWithAuthorAndSong(), {
-            loadWithTerm(createTermWithAuthor(), { notifyCallback(null) })
-        })
+        loadWithTerm(createTermWithAuthorAndSong()) {
+            loadWithTerm(createTermWithAuthor()) { notifyCallback(null) }
+        }
     }
 
     private fun loadWithTerm(term: String, failCallback: () -> Unit) {
@@ -83,7 +83,7 @@ class ArtLoadRequest(val context: Context, val okHttpClient: OkHttpClient, val a
         }
 
         try {
-            notifyCallback(Picasso.with(context).load(url).get())
+            notifyCallback(url)
         } catch (e: IOException) {
             e.printStackTrace()
             notifyCallback(null)
@@ -112,17 +112,17 @@ class ArtLoadRequest(val context: Context, val okHttpClient: OkHttpClient, val a
 
     private fun createTermWithAuthor() = author
 
-    private fun notifyCallback(bitmap: Bitmap?) {
-        if (bitmap != null) {
-            imageHolderMap.put(createTermWithAuthorAndSong(), bitmap)
+    private fun notifyCallback(url: String?) {
+        if (url != null) {
+            imageHolderMap[createTermWithAuthorAndSong()] = url
         }
 
         if (isSubscribed) {
-            callback.onLoad(bitmap)
+            callback.onLoad(url)
         }
     }
 
     interface LoadCallback {
-        fun onLoad(bitmap: Bitmap?)
+        fun onLoad(url: String?)
     }
 }

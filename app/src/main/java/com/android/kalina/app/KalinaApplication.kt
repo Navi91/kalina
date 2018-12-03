@@ -35,21 +35,21 @@ class KalinaApplication : MultiDexApplication(), OSSubscriptionObserver {
 
         Tracer.setEnable(BuildConfig.DEBUG)
 
-        OneSignal.startInit(this).inFocusDisplaying(OneSignal.OSInFocusDisplayOption.None)
-//                .setNotificationOpenedHandler { result ->
-//                    startActivity(RadioActivity.createOpenChatIntent(this))
-//                }
-                .setNotificationReceivedHandler(OneSignalNotificationReceiver(this))
-                .init()
+//        OneSignal.startInit(this).inFocusDisplaying(OneSignal.OSInFocusDisplayOption.None)
+////                .setNotificationOpenedHandler { result ->
+////                    startActivity(RadioActivity.createOpenChatIntent(this))
+////                }
+//                .setNotificationReceivedHandler(OneSignalNotificationReceiver(this))
+//                .init()
 
-        OneSignal.addSubscriptionObserver(this)
-        OneSignal.idsAvailable { userId, registrationId ->
-            if (preferences.getPlayerId().isEmpty()) {
-                preferences.setPlayerId(userId)
-            }
-        }
-
-        registerReceiver(MessageReceiver(), IntentFilter(MESSAGE_ACTION))
+//        OneSignal.addSubscriptionObserver(this)
+//        OneSignal.idsAvailable { userId, registrationId ->
+//            if (preferences.getPlayerId().isEmpty()) {
+//                preferences.setPlayerId(userId)
+//            }
+//        }
+//
+//        registerReceiver(MessageReceiver(), IntentFilter(MESSAGE_ACTION))
     }
 
     override fun onOSSubscriptionChanged(stateChanges: OSSubscriptionStateChanges?) {

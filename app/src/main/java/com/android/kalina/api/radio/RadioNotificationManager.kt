@@ -10,6 +10,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.RemoteException
 import android.support.annotation.RequiresApi
@@ -24,8 +27,13 @@ import android.text.TextUtils
 import com.android.kalina.R
 import com.android.kalina.api.ArtLoadRequest
 import com.android.kalina.api.ArtLoader
-import com.android.kalina.util.Logger
+import com.android.kalina.glide.GlideApp
 import com.android.kalina.ui.activity.RadioActivity
+import com.android.kalina.util.Logger
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * Created by Dmitriy on 25.02.2018.
@@ -43,15 +51,22 @@ class RadioNotificationManager(val service: RadioService) : BroadcastReceiver() 
     private val artLoader = ArtLoader(service)
     private var artLoadRequest: ArtLoadRequest? = null
 
-    private val notificationManager: NotificationManager = service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager: NotificationManager =
+        service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val pkg = service.packageName
-    private val playIntent: PendingIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-            Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT);
-    private val pauseIntent: PendingIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-            Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
-    private val stopIntent: PendingIntent = PendingIntent.getBroadcast(service, REQUEST_CODE,
-            Intent(ACTION_STOP).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT)
+    private val playIntent: PendingIntent = PendingIntent.getBroadcast(
+        service, REQUEST_CODE,
+        Intent(ACTION_PLAY).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT
+    );
+    private val pauseIntent: PendingIntent = PendingIntent.getBroadcast(
+        service, REQUEST_CODE,
+        Intent(ACTION_PAUSE).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT
+    )
+    private val stopIntent: PendingIntent = PendingIntent.getBroadcast(
+        service, REQUEST_CODE,
+        Intent(ACTION_STOP).setPackage(pkg), PendingIntent.FLAG_CANCEL_CURRENT
+    )
 
     private var started = false
 
@@ -209,20 +224,22 @@ class RadioNotificationManager(val service: RadioService) : BroadcastReceiver() 
 
         addActions(notificationBuilder)
         notificationBuilder
-                .setStyle(MediaStyle()
-                        // show only play/pause in compact view
-                        .setShowCancelButton(true)
-                        .setCancelButtonIntent(stopIntent)
-                        .setMediaSession(sessionToken))
-                .setDeleteIntent(stopIntent)
+            .setStyle(
+                MediaStyle()
+                    // show only play/pause in compact view
+                    .setShowCancelButton(true)
+                    .setCancelButtonIntent(stopIntent)
+                    .setMediaSession(sessionToken)
+            )
+            .setDeleteIntent(stopIntent)
 //                .setColor(ContextCompat.getColor(service, android.R.color.black))
-                .setSmallIcon(R.mipmap.ic_notification)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setOnlyAlertOnce(true)
-                .setContentIntent(createContentIntent(description))
-                .setContentTitle(description.title)
-                .setContentText(description.subtitle)
-                .setLargeIcon(art)
+            .setSmallIcon(R.mipmap.ic_notification)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(createContentIntent(description))
+            .setContentTitle(description.title)
+            .setContentText(description.subtitle)
+            .setLargeIcon(art)
 
         setNotificationPlaybackState(notificationBuilder)
         fetchBitmapFromURLAsync(author.toString(), song.toString(), notificationBuilder)
@@ -268,22 +285,50 @@ class RadioNotificationManager(val service: RadioService) : BroadcastReceiver() 
     private fun fetchBitmapFromURLAsync(author: String, song: String, builder: NotificationCompat.Builder) {
 
         artLoadRequest = artLoader.request(author, song, object : ArtLoadRequest.LoadCallback {
-            override fun onLoad(bitmap: Bitmap?) {
-                if (bitmap != null) {
-                    builder.setLargeIcon(bitmap)
-                    notificationManager.notify(NOTIFICATION_ID, builder.build())
-                }
+            override fun onLoad(url: String?) {
+                Completable.fromCallable {
+                    GlideApp.with(service).load(url)
+                        .override(service.resources.getDimensionPixelSize(R.dimen.notification_large_icon_size))
+                        .into(object : SimpleTarget<Drawable>() {
+
+                            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                                builder.setLargeIcon(drawableToBitmap(resource))
+                                notificationManager.notify(NOTIFICATION_ID, builder.build())
+                            }
+                        })
+                }.subscribeOn(AndroidSchedulers.mainThread()).subscribe({}, {})
             }
         })
         subscribeLoadRequest()
     }
 
+    fun drawableToBitmap(drawable: Drawable): Bitmap {
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
-            val notificationChannel = NotificationChannel(CHANNEL_ID,
-                    service.getString(R.string.radio_notification_channel_name),
-                    NotificationManager.IMPORTANCE_LOW)
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                service.getString(R.string.radio_notification_channel_name),
+                NotificationManager.IMPORTANCE_LOW
+            )
 
             notificationChannel.description = service.getString(R.string.radio_notification_channel_description)
 

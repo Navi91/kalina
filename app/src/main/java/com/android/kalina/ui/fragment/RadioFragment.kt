@@ -2,7 +2,6 @@ package com.android.kalina.ui.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.os.Bundle
@@ -25,9 +24,11 @@ import com.android.kalina.api.playback.PlaybackManager
 import com.android.kalina.api.util.Preferences
 import com.android.kalina.api.util.observeMain
 import com.android.kalina.dagger.ComponentHolder
+import com.android.kalina.glide.GlideApp
 import com.android.kalina.ui.KalinaFragment
 import com.android.kalina.ui.activity.AuthActivity
 import com.android.kalina.ui.activity.ChatActivity
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.f_radio.*
 import javax.inject.Inject
@@ -47,6 +48,7 @@ class RadioFragment : KalinaFragment() {
     private lateinit var audioManager: AudioManager
     private var loadImageRequest: ArtLoadRequest? = null
     private var unreadMessageDisposable: Disposable? = null
+    private var isDestroyed = true
 
     private val callback = object : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat) {
@@ -78,8 +80,7 @@ class RadioFragment : KalinaFragment() {
         ComponentHolder.applicationComponent().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.f_radio, container, false)
     }
 
@@ -110,14 +111,33 @@ class RadioFragment : KalinaFragment() {
         chatImageView.setOnClickListener { onChatClicked() }
 
         unreadMessageDisposable = messageRepository.getUnreadMessageCountObservable()
-                .observeMain()
-                .subscribe {
-                    if (it == 0) {
-                        chatImageView.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_chat_icon_24dp))
-                    } else {
-                        chatImageView.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_unread_message_24dp))
-                    }
+            .observeMain()
+            .subscribe {
+                if (it == 0) {
+                    chatImageView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            view.context,
+                            R.drawable.ic_chat_icon_24dp
+                        )
+                    )
+                } else {
+                    chatImageView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            view.context,
+                            R.drawable.ic_unread_message_24dp
+                        )
+                    )
                 }
+            }
+
+        loadUrl()
+        isDestroyed = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        isDestroyed = true
     }
 
     private fun invalidateVolumeSeekBar() {
@@ -153,12 +173,14 @@ class RadioFragment : KalinaFragment() {
         val state = stateObj?.state ?: PlaybackStateCompat.STATE_NONE
 
         if (state == PlaybackStateCompat.STATE_PAUSED ||
-                state == PlaybackStateCompat.STATE_STOPPED ||
-                state == PlaybackStateCompat.STATE_NONE) {
+            state == PlaybackStateCompat.STATE_STOPPED ||
+            state == PlaybackStateCompat.STATE_NONE
+        ) {
             playMedia()
         } else if (state == PlaybackStateCompat.STATE_PLAYING ||
-                state == PlaybackStateCompat.STATE_BUFFERING ||
-                state == PlaybackStateCompat.STATE_CONNECTING) {
+            state == PlaybackStateCompat.STATE_BUFFERING ||
+            state == PlaybackStateCompat.STATE_CONNECTING
+        ) {
             pauseMedia()
         }
     }
@@ -189,7 +211,8 @@ class RadioFragment : KalinaFragment() {
 
         var enablePlay = false
         when (state.state) {
-            PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.STATE_NONE -> enablePlay = true
+            PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED, PlaybackStateCompat.STATE_NONE -> enablePlay =
+                    true
             PlaybackStateCompat.STATE_ERROR -> {
                 Toast.makeText(activity, R.string.error, Toast.LENGTH_LONG).show()
                 pauseMedia()
@@ -235,17 +258,24 @@ class RadioFragment : KalinaFragment() {
 
     private fun loadArtImage(author: String, song: String) {
         loadImageRequest = artLoader.request(author, song, object : ArtLoadRequest.LoadCallback {
-            override fun onLoad(bitmap: Bitmap?) {
-                if (bitmap != null) {
-                    activity?.runOnUiThread {
-                        artImageView.setImageBitmap(bitmap)
-                    }
-                }
+            override fun onLoad(url: String?) {
+                artUrl = url
+                if (!isDestroyed) loadUrl()
             }
         })
 
-        artImageView.setImageDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_track_placeholder))
+        GlideApp.with(artImageView).load(R.drawable.ic_track_placeholder).downsample(DownsampleStrategy.AT_MOST)
+            .into(artImageView)
         subscribeLoadRequest()
+    }
+
+    private fun loadUrl() {
+        val url = artUrl ?: return
+        artUrl = null
+
+        activity?.runOnUiThread {
+            GlideApp.with(artImageView).load(url).downsample(DownsampleStrategy.AT_MOST).into(artImageView)
+        }
     }
 
     private fun playMedia() {
@@ -260,6 +290,9 @@ class RadioFragment : KalinaFragment() {
 
     private fun setVolumeMedia() {
         val controller = MediaControllerCompat.getMediaController(activity!!)
-        controller?.transportControls?.sendCustomAction(PlaybackManager.VOLUME_CUSTOM_ACTION, PlaybackManager.createVolumeArgs(preferences.getVolume()))
+        controller?.transportControls?.sendCustomAction(
+            PlaybackManager.VOLUME_CUSTOM_ACTION,
+            PlaybackManager.createVolumeArgs(preferences.getVolume())
+        )
     }
 }

@@ -19,8 +19,8 @@ android {
         applicationId "com.android.kalina"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
@@ -90,4 +90,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     implementation 'com.onesignal:OneSignal:3.10.2'
     compile 'com.android.support:multidex:1.0.3'
+    implementation"com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 }
